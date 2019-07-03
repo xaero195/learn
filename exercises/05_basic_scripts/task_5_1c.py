@@ -28,5 +28,6 @@ london_co = {
 name = input('Введите имя устройства: ')
 param = london_co[name]
 param2 = input('Введите имя параметра '+(', '.join(param))+':')
-print(london_co.get([name][param2], 'no parameter'))
+print(param.get(param2 , 'no parameter'))
+#print(london_co.get(name param2, 'no parameter'))
 
