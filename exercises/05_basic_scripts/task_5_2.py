@@ -19,3 +19,15 @@ Mask:
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
+ip_net = input('input ip-network like a.a.a.a/b ')
+help1 = ip_net.split('/')
+help2 = help1[0].split('.')
+help3 = int(help1[1])
+
+
+
+print('Network:\n{:<12}{:<12}{:<12}{:<12}'.format(int(help2[0]),int(help2[1]),int(help2[2]),int(help2[3])))
+print('{:<012b}{:<012b}{:<012b}{:<012b}'.format(int(help2[0]),int(help2[1]),int(help2[2]),int(help2[3])))
+print('\n')
+print('Mask:\n/{}'.format(help1[1]))
+

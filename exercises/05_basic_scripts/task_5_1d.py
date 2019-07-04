@@ -43,3 +43,8 @@ london_co = {
         'routing': True
     }
 }
+name = input('Введите имя устройства: ')
+param = london_co[name]
+param2 = input('Введите имя параметра '+(', '.join(param))+':')
+param2 = param2.lower()
+print(param.get(param2 , 'no parameter'))
