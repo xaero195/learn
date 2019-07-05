@@ -44,7 +44,9 @@ switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allowed vlan 2,3,4,5
 '''
-
+switch = input('Введите режим работы интерфейса (access/trunk): ')
+number = input('Введите тип и номер интерфейса: ')
+vlans = input('Введите номер влан(ов): ')
 access_template = [
     'switchport mode access', 'switchport access vlan {}',
     'switchport nonegotiate', 'spanning-tree portfast',
@@ -55,3 +57,7 @@ trunk_template = [
     'switchport trunk encapsulation dot1q', 'switchport mode trunk',
     'switchport trunk allowed vlan {}'
 ]
+dict1 = dict([('access', access_template),('trunk', trunk_template)])
+alle = '\n'.join(dict1[switch])
+print('interface {}'.format(number))
+print(alle.format(vlans))
