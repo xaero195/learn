@@ -17,3 +17,12 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 '''
+with open('CAM_table.txt','r') as mac:
+    for line in mac:
+        line_list = line.split()
+        try:
+            vlan = int(line_list[0].rstrip())
+            print(line.rstrip())
+        except:
+            continue
+        
