@@ -23,3 +23,40 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
+def get_int_vlan_map(config_filename):
+    with open(config_filename,'r') as f:
+        access_mode = {}
+        trunk_mode = {}
+        vlan_trunk_list1 = []
+        for line in f:
+            if line.startswith('interface'):
+                intf = line.strip().split()[-1]
+                vlan_check = 0                
+            elif 'access' in line:
+                vlan_check = 1
+                try:
+                    vlan_access = int(line.strip().split()[-1])
+                    access_mode.update({intf: vlan_access})
+                    vlan_check = 0
+                except:
+                    pass
+            elif ('duplex' in line) and vlan_check:
+                vlan_access = 1
+                access_mode.update({intf: vlan_access})
+                vlan_check = 0
+            elif 'trunk' in line:
+                if 'allowed' in line:
+                    try:
+                        vlan_trunk = line.strip().split()[-1]
+                        vlan_trunk_list = vlan_trunk.split(',')
+                        vlan_trunk_list1 = []
+                        for vlan in vlan_trunk_list:
+                            vlan_trunk_list1.append(int(vlan))
+                        trunk_mode.update({intf: vlan_trunk_list1})
+                    except:
+                        pass
+    result = (access_mode, trunk_mode)
+    return result
+
+print(get_int_vlan_map('config_sw2.txt'))
+
