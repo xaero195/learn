@@ -56,6 +56,6 @@ def parse_cdp_neighbors(command_output):
                 
 
 
-with open('sh_cdp_n_sw1.txt', 'r') as sc:
-    source = sc.read()
-    print(parse_cdp_neighbors(source))
+#with open('sh_cdp_n_sw1.txt', 'r') as sc:
+ #   source = sc.read()
+  #  print(parse_cdp_neighbors(source))
