@@ -21,3 +21,22 @@
 Проверить работу функции на примере файла sh_ip_int_br.txt.
 
 '''
+import re
+
+def parse_sh_ip_int_br(filename):
+    result = []
+    regex1 = re.compile('(\S+) +(\S+) +YES +(manual|unset)\s+(.+?)\s+(\S+$)')
+   # regex2 = re.compile('ip address (\d+.\d+.\d+.\d+) +(\d+.\d+.\d+.\d+)')
+    with open(filename) as f:
+        for line in f:
+            match1 = regex1.search(line)
+            if match1:
+                list_of_ip = [match1.group(1),match1.group(2),match1.group(4),match1.group(5)]
+                tuple1 = tuple(list_of_ip)
+                result.append(tuple1)
+                #r1 = dict(())
+               # result.update({key_interface: list_of_ip2})
+    return result
+
+if __name__=="__main__":
+    print(parse_sh_ip_int_br('sh_ip_int_br.txt'))
