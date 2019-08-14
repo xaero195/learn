@@ -23,4 +23,26 @@ Ethernet0/1 соответствует список из двух кортеже
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 '''
+import re
 
+def get_ip_from_cfg(filename):
+    result = {}
+    regex1 = re.compile('interface (\S+)')
+    regex2 = re.compile('ip address (\d+.\d+.\d+.\d+) +(\d+.\d+.\d+.\d+)')
+    with open(filename) as f:
+        for line in f:
+            match1 = regex1.search(line)
+            if match1:
+                key_interface = match1.group(1)
+                list_of_ip2 = []
+            match2 = regex2.search(line)
+            if match2:
+                list_of_ip = [match2.group(1),match2.group(2)]
+                tuple1 = tuple(list_of_ip)
+                list_of_ip2.append(tuple1)
+                #r1 = dict(())
+                result.update({key_interface: list_of_ip2})
+    return result
+
+if __name__=="__main__":
+    print(get_ip_from_cfg('config_r2.txt'))
