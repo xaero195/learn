@@ -24,3 +24,24 @@ description Connected to SW1 port Eth 0/1
 
 Проверить работу функции на файле sh_cdp_n_sw1.txt.
 '''
+import re
+
+def generate_description_from_cdp(filename):
+    result = {}
+    flag = False
+    regex1 = re.compile('Device')
+    regex2 = re.compile('(\S+)\s+(\S+\s\S+).+?(\S+\s\S+$)')
+    with open(filename, 'r') as f:
+        for line in f:
+            match1 = regex1.search(line)
+            if match1:
+                flag = True
+                continue
+            if flag:
+                match2 = regex2.search(line)
+                if match2:
+                    result.update({match2.group(2): 'description Connected to {} port {}'.format(match2.group(1), match2.group(3))})
+    return result
+
+if __name__=='__main__':
+    print(generate_description_from_cdp('sh_cdp_n_sw1.txt'))
