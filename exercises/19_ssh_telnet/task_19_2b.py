@@ -92,9 +92,60 @@ R1(config)#logging
 R1(config)#i
 % Ambiguous command:  "i"
 '''
+import re
 
 # списки команд с ошибками и без:
 commands_with_errors = ['logging 0255.255.1', 'logging', 'i']
 correct_commands = ['logging buffered 20010', 'ip http server']
 
 commands = commands_with_errors + correct_commands
+
+def send_config_commands(device, config_commands, verbose=True):
+    good = {}
+    bad = {}
+    regex_err_invalid = re.compile(r'\S+Invalid input detected\S+')
+    regex_err_incomplete = re.compile(r'\S+Incomplete command\S+')
+    regex_err_ambiguous = re.compile(r'\S+Ambiguous command\S+')
+    for command in config_commands:
+
+        try:
+            if verbose:
+                print('Try to connect with {}'.format(device[ip]))
+            with ConnectHandler(**device) as ssh:
+                ssh.enable()
+    
+                result_source = ssh.send_command(command)
+
+                match_invalid = regex.search(result_source)
+                match_incomplete = regex.search(result_source)
+                match_ambiguous = regex.search(result_source)
+                if match_invalid:
+                    print('ALARM! Invalid on {}!'.format(device[ip]))
+                    bad.update(command:match_invalid.groups())
+                    answer = input('Continue? [y/n]')
+                    if answer == 'n':
+                        break
+                        answer = ''
+                elif match_incomplete:
+                    print('ALARM! Incomplete on {}!'.format(device[ip]))
+                    bad.update(command:match_incomplete.groups())
+                    answer = input('Continue? [y/n]')
+                    if answer == 'n':
+                        break
+                        answer = ''
+                elif match_ambiguous:
+                    print('ALARM! Ambiguous on {}!'.format(device[ip]))
+                    bad.update(command:match_ambiguous.groups())
+                    answer = input('Continue? [y/n]')
+                    if answer == 'n':
+                        break
+                        answer = ''
+                else:
+                    good.update(command:result_source)
+            result = tuple(good, bad)
+#           print(result)
+        except error_authen:
+            print('ERROR PASSWORD, ITIT KOLOTIT!')
+        except ip_address:
+            print('ERROR IP, ITIT KOLOTIT!')
+    return result
