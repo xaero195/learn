@@ -35,3 +35,11 @@
 
 
 '''
+
+from task_21_1 import generate_config
+
+template_path = 'templates/ospf.txt'
+data_path = 'data_files/ospf.yml'
+
+if __name__=='__main__':
+    print(generate_config(template_path, data_path))
