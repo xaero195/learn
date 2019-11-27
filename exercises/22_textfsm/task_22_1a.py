@@ -29,18 +29,16 @@ def parse_command_output(template, command_output):
     return result
 
 def parse_output_to_dict(template, command_output):
-    result = []
-    with open(template) as f:
-        re_table = textfsm.TextFSM(f)
-        header = re_table.header
-        body = re_table.ParseText(command_output)
-        lenght_header = len(header)
-        lenght_body = len(body)
-        for i in range(lenght_body):
-            result1 = {}
-            for j in range(lenght_header):
-                result1[header[j]]=body[i][j]
-            result.append(result1)
+    result = [] 
+    body = [list(row) for row in cli_table]
+    header = list(cli_table.header)
+    lenght_header = len(header)
+    lenght_body = len(body)
+    for i in range(lenght_body):
+        result1 = {}
+        for j in range(lenght_header):
+            result1[header[j]]=body[i][j]
+        result.append(result1)
     return result
 
 if __name__=='__main__':
